@@ -1,8 +1,9 @@
 var title = "Basic Sound Synthesis"
-//var synth, synth2;
-var osc, ampEnv, osc2;
+var osc, osc2, oscNoise;
 var c1, c2, c3, c4, c5;
-var fil;
+var lfo, lfo2;
+var ampEnv, ampEnvNoise;
+var filt;
 
 function setup(){
 	createCanvas(640, 400);
@@ -16,6 +17,12 @@ function setup(){
 	osc2 = new Tone.Oscillator(660, "sawtooth6").start();
 	osc2.volume.value = -5;
 
+	oscNoise = new Tone.Noise().start();
+	filt = new Tone.Filter(2000, "lowpass");
+
+	lfo = new Tone.LFO(5, -64, 0).start();
+	lfo2 = new Tone.LFO(10, 650, 670).start();
+
 	ampEnv = new Tone.AmplitudeEnvelope({
 		"attack": 0.1,
 		"decay": 0.2,
@@ -23,31 +30,26 @@ function setup(){
 		"release": 0.8
 	}).toMaster();
 
+	ampEnvNoise = new Tone.AmplitudeEnvelope({
+		"attack": 0.1,
+		"decay": 0.1,
+		"sustain": 0.8,
+		"release": 0.1
+	}).toMaster();
+
 	osc.connect(ampEnv);
+	lfo.connect(oscNoise.volume);
+
 	osc2.connect(ampEnv);
+	lfo2.connect(osc2.frequency);
 
-	fil = new Tone.Filter({
-		type:"lowpass",
-		frequency:350,
-		rolloff:-12,
-		Q:1,
-		gain:0
-	});
-
-	osc.connect(fil);
-	osc2.connect(fil);
+	oscNoise.connect(filt);
+	filt.connect(ampEnvNoise);
 
 }
 
 function draw(){
 	background(100);
-	/*
-	for(var i = 0; i <= 10; i++){
-		stroke(255);
-		fill(random(100, 255), random(100, 255), random(100,255));
-		ellipse(random(640), random(400), 50, 50);
-	}
-	*/
 	noStroke();
 	fill(255);
 	text(title, 600/2.5, 50);
@@ -91,11 +93,12 @@ function keyPressed(){
 	//press W
 	if (keyCode == 87){
 		osc.frequency.value = "F5";
-		osc2.frequency.value = "C5";
+		//osc2.frequency.value = "Cb5";
 		ampEnv.triggerAttackRelease(1);
-		osc.frequency.setValueAtTime("A3", +0.5);
+		osc.frequency.setValueAtTime("C5", "+0.5");
+		//osc2.frequency.setValueAtTime("G1", "+0.8");
 
-		fil.type = "lowshelf";
+		ampEnvNoise.triggerAttackRelease(1, "+0.5");
 
 		c2 = color(0);
 		c3 = color(0);
@@ -105,9 +108,11 @@ function keyPressed(){
 	}
 	//press A
 	else if(keyCode == 65){
-		osc.frequency.value = 'C5';
+		osc.frequency.value = "C5";
+		osc2.frequency.value = "Db5";
 		ampEnv.triggerAttackRelease(1);
-		osc.frequency.setValueAtTime('D5', +0.5);
+		osc.frequency.setValueAtTime("D5", "+0.5");
+		osc2.frequency.setValueAtTime("G1", "+0.8");
 
 		c1 = color(0);
 		c3 = color(0);
@@ -117,7 +122,8 @@ function keyPressed(){
 	}
 	//press S
 	else if(keyCode == 83){
-		osc.frequency.value = 'Bb4';
+		osc.frequency.value = "B5";
+		osc2.frequency.value = "Gb5";
 		ampEnv.triggerAttackRelease(1);
 		osc.frequency.setValueAtTime("G5", +0.5);
 
@@ -129,7 +135,8 @@ function keyPressed(){
 	}
 	//press D
 	else if(keyCode == 68){
-		osc.frequency.value = 'B6';
+		osc.frequency.value = "D5";
+		osc2.frequency.value = "Ab5";
 		ampEnv.triggerAttackRelease(1);
 		osc.frequency.setValueAtTime("A5", +0.5);
 
@@ -141,9 +148,10 @@ function keyPressed(){
 	}
 	//press F
 	else if(keyCode ==  70){
-		osc.frequency.value = 'C4';
+		osc.frequency.value = "A5";
+		osc2.frequency.value = "Fb5";
 		ampEnv.triggerAttackRelease(1);
-		osc.frequency.setValueAtTime("B5", +0.5);
+		osc.frequency.setValueAtTime("F5", +0.5);
 
 		c1 = color(0);
 		c2 = color(0);
