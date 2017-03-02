@@ -21,7 +21,7 @@ function setup(){
 	filt = new Tone.Filter(2000, "lowpass");
 
 	lfo = new Tone.LFO(5, -64, 0).start();
-	lfo2 = new Tone.LFO(10, 650, 670).start();
+	lfo2 = new Tone.LFO(5, 650, 670).start();
 
 	ampEnv = new Tone.AmplitudeEnvelope({
 		"attack": 0.1,
@@ -93,12 +93,10 @@ function keyPressed(){
 	//press W
 	if (keyCode == 87){
 		osc.frequency.value = "F5";
-		//osc2.frequency.value = "Cb5";
 		ampEnv.triggerAttackRelease(1);
 		osc.frequency.setValueAtTime("C5", "+0.5");
-		//osc2.frequency.setValueAtTime("G1", "+0.8");
-
-		ampEnvNoise.triggerAttackRelease(1, "+0.5");
+		osc.frequency.setValueAtTime("C6", "+0.8");
+		//ampEnvNoise.triggerAttackRelease(1, "+0.5");
 
 		c2 = color(0);
 		c3 = color(0);
@@ -109,10 +107,13 @@ function keyPressed(){
 	//press A
 	else if(keyCode == 65){
 		osc.frequency.value = "C5";
-		osc2.frequency.value = "Db5";
-		ampEnv.triggerAttackRelease(1);
-		osc.frequency.setValueAtTime("D5", "+0.5");
-		osc2.frequency.setValueAtTime("G1", "+0.8");
+		ampEnv.triggerAttackRelease(1.5);
+		//osc.frequency.setValueAtTime("D5", "+0.2");
+		osc.frequency.setValueAtTime("Ab5", "+0.5");
+		osc.frequency.setValueAtTime("C6", "+1");
+		osc.frequency.setValueAtTime("C7", "+1.3");
+
+		ampEnvNoise.triggerAttackRelease(1, "+0.2");
 
 		c1 = color(0);
 		c3 = color(0);
@@ -125,7 +126,10 @@ function keyPressed(){
 		osc.frequency.value = "B5";
 		osc2.frequency.value = "Gb5";
 		ampEnv.triggerAttackRelease(1);
-		osc.frequency.setValueAtTime("G5", +0.5);
+		osc.frequency.setValueAtTime("G5", "+0.5");
+		osc.frequency.setValueAtTime("C3", "+0.2");
+
+		ampEnvNoise.triggerAttackRelease(1, "+0.3");
 
 		c1 = color(0);
 		c2 = color(0);
@@ -138,7 +142,8 @@ function keyPressed(){
 		osc.frequency.value = "D5";
 		osc2.frequency.value = "Ab5";
 		ampEnv.triggerAttackRelease(1);
-		osc.frequency.setValueAtTime("A5", +0.5);
+		osc.frequency.setValueAtTime("A5", "+0.5");
+		osc.frequency.setValueAtTime("F5", "+0.7");
 
 		c1 = color(0);
 		c2 = color(0);
@@ -151,7 +156,9 @@ function keyPressed(){
 		osc.frequency.value = "A5";
 		osc2.frequency.value = "Fb5";
 		ampEnv.triggerAttackRelease(1);
-		osc.frequency.setValueAtTime("F5", +0.5);
+		osc.frequency.setValueAtTime("F5", "+0.5");
+
+		ampEnvNoise.triggerAttackRelease(1, "+0.5");
 
 		c1 = color(0);
 		c2 = color(0);
